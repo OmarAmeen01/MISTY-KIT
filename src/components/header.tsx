@@ -1,9 +1,6 @@
 "use client";
 
-import { CodeViewer } from "@/components/code-viewer";
-import { PresetSave } from "@/components/preset-save";
 import { PresetSelector } from "@/components/preset-selector";
-import { PresetShare } from "@/components/preset-share";
 
 export function Header() {
   return (
@@ -14,7 +11,8 @@ export function Header() {
             <div>
               <h2 className="text-lg font-semibold">Beta Testing Arkham</h2>
               <p className="text-sm text-gray-500">
-                Try the best conversational AI Teacher at the palm of your hands.
+                Try the best conversational AI Teacher at the palm of your
+                hands.
               </p>
             </div>
           </div>

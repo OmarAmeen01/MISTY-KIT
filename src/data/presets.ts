@@ -3,16 +3,16 @@ import { VoiceId } from "./voices";
 import {
   Bot,
   GraduationCap,
-  Annoyed,
+  // Annoyed,
   Music,
   Cigarette,
-  Anchor,
-  Meh,
-  HeadsetIcon,
-  Gamepad,
-  Sparkles,
+  // Anchor,
+  // Meh,
+  // HeadsetIcon,
+  // Gamepad,
+  // Sparkles,
   TreePalm,
-  Skull,
+  // Skull,
 } from "lucide-react";
 
 export interface Preset {
