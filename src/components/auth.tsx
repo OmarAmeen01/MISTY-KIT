@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
+import { useSession } from "next-auth/react"
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,6 +28,7 @@ import { AuthBanner } from "./authBanner";
 import { LockKeyhole } from "lucide-react";
 import { ArrowUpRight } from "lucide-react";
 import { GitHubLogoIcon } from "@radix-ui/react-icons";
+import { SignIn } from "./signin";
 
 const AuthFormSchema = z.object({
   openaiAPIKey: z.string().min(1, { message: "API key is required" }),
@@ -44,7 +45,17 @@ export function Auth() {
     dispatch({ type: "SET_API_KEY", payload: null });
     setShowAuthDialog(true);
   };
-
+  const {data: session} = useSession()
+  
+  if(!session?.user?.email){
+    return (
+      <>
+      You need to go signin 
+      <SignIn/>
+      </>
+    )
+  }
+  
   return (
     <div>
       {pgState.openaiAPIKey && (

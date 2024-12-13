@@ -23,6 +23,7 @@ const publicSans = Public_Sans({
 });
 
 import "@livekit/components-styles";
+import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({
   children,
@@ -32,17 +33,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={publicSans.className}>
-        <PHProvider>
-          <PlaygroundStateProvider>
-            <ConnectionProvider>
-              <TooltipProvider>
-                <PostHogPageView />
-                {children}
-                <Toaster />
-              </TooltipProvider>
-            </ConnectionProvider>
-          </PlaygroundStateProvider>
-        </PHProvider>
+        <SessionProvider>
+          <PHProvider>
+            <PlaygroundStateProvider>
+              <ConnectionProvider>
+                <TooltipProvider>
+                  <PostHogPageView />
+                  {children}
+                  <Toaster />
+                </TooltipProvider>
+              </ConnectionProvider>
+            </PlaygroundStateProvider>
+          </PHProvider>
+        </SessionProvider>
       </body>
     </html>
   );
