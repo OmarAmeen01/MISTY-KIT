@@ -5,7 +5,7 @@ import {
   GraduationCap,
   // Annoyed,
   Music,
-  Cigarette,
+  // Cigarette,
   // Anchor,
   // Meh,
   // HeadsetIcon,
