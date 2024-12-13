@@ -47,14 +47,15 @@ export function Auth() {
   };
   const {data: session} = useSession()
   
-  if(!session?.user?.email){
+  if (!session?.user?.email) {
     return (
       <>
-      You need to go signin 
-      <SignIn/>
+        You need to go sign in
+        <SignIn />
       </>
-    )
+    );
   }
+  
   
   return (
     <div>
@@ -212,3 +213,4 @@ export function AuthDialog({
     </Dialog>
   );
 }
+z

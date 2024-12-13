@@ -166,7 +166,7 @@ export function ConfigurationForm() {
           <div className="flex-grow overflow-y-auto p-4 pt-0">
             <div className="space-y-4">
               <SessionConfig form={form} />
-
+{/* Configuration part for the model and its temperature data  */}
               {pgState.sessionConfig.voice !== voice &&
                 ConnectionState.Connected === connectionState && (
                   <div className="flex flex-col">

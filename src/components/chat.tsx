@@ -111,36 +111,67 @@ export function Chat() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden p-2 lg:p-4">
-      <ChatControls
-        showEditButton={isChatRunning}
-        isEditingInstructions={isEditingInstructions}
-        onToggleEdit={toggleInstructionsEdit}
-      />
-      <div className="flex flex-col flex-grow items-center lg:justify-between mt-12 lg:mt-0">
-        <div className="w-full h-full flex flex-col">
-          <div className="flex items-center justify-center w-full">
-            <div className="lg:hidden w-full">
-              {isChatRunning && !isEditingInstructions ? (
-                renderVisualizer()
-              ) : (
-                <Instructions />
-              )}
-            </div>
-            <div className="hidden lg:block w-full">
-              <Instructions />
-            </div>
-          </div>
-          <div className="grow h-full flex items-center justify-center">
-            <div className="w-full hidden lg:block">
-              {isChatRunning && !isEditingInstructions && renderVisualizer()}
-            </div>
-          </div>
+  <ChatControls
+    showEditButton={isChatRunning}
+    isEditingInstructions={isEditingInstructions}
+    onToggleEdit={toggleInstructionsEdit}
+  />
+  <div className="flex flex-col flex-grow items-center lg:justify-between mt-12 lg:mt-0">
+    <div className="w-full h-full flex flex-col">
+      <div className="flex items-center justify-center w-full">
+        {/* Removed Instructions component for both mobile and desktop */}
+        <div className="lg:hidden w-full">
+          {isChatRunning && !isEditingInstructions ? (
+            renderVisualizer()
+          ) : null}
         </div>
-
-        <div className="md:mt-2 md:pt-2 md:mb-12 max-md:fixed max-md:bottom-12 max-md:left-1/2 max-md:-translate-x-1/2 max-md:z-50 xl:fixed xl:bottom-12 xl:left-1/2 xl:-translate-x-1/2 xl:z-50">
-          {renderConnectionControl()}
+        <div className="hidden lg:block w-full">
+          {/* Intentionally left empty */}
+        </div>
+      </div>
+      <div className="grow h-full flex items-center justify-center">
+        <div className="w-full hidden lg:block">
+          {isChatRunning && !isEditingInstructions && renderVisualizer()}
         </div>
       </div>
     </div>
+    <div className="md:mt-2 md:pt-2 md:mb-12 max-md:fixed max-md:bottom-12 max-md:left-1/2 max-md:-translate-x-1/2 max-md:z-50 xl:fixed xl:bottom-12 xl:left-1/2 xl:-translate-x-1/2 xl:z-50">
+      {renderConnectionControl()}
+    </div>
+  </div>
+</div>
+    // <div className="flex flex-col h-full overflow-hidden p-2 lg:p-4">
+    //   <ChatControls
+    //     showEditButton={isChatRunning}
+    //     isEditingInstructions={isEditingInstructions}
+    //     onToggleEdit={toggleInstructionsEdit}
+    //   />
+    //   <div className="flex flex-col flex-grow items-center lg:justify-between mt-12 lg:mt-0">
+    //     <div className="w-full h-full flex flex-col">
+    //       <div className="flex items-center justify-center w-full">
+    //         {/* This is the user changeable instructions area where you can change the quote unquote system prompt and get AI to do more shit  */}
+    //         <div className="lg:hidden w-full">
+    //           {isChatRunning && !isEditingInstructions ? (
+    //             renderVisualizer()
+    //           ) : (
+    //             <Instructions />
+    //           )}
+    //         </div>
+    //         <div className="hidden lg:block w-full">
+    //           <Instructions />
+    //         </div>
+    //       </div>
+    //       <div className="grow h-full flex items-center justify-center">
+    //         <div className="w-full hidden lg:block">
+    //           {isChatRunning && !isEditingInstructions && renderVisualizer()}
+    //         </div>
+    //       </div>
+    //     </div>
+
+    //     <div className="md:mt-2 md:pt-2 md:mb-12 max-md:fixed max-md:bottom-12 max-md:left-1/2 max-md:-translate-x-1/2 max-md:z-50 xl:fixed xl:bottom-12 xl:left-1/2 xl:-translate-x-1/2 xl:z-50">
+    //       {renderConnectionControl()}
+    //     </div>
+    //   </div>
+    // </div>
   );
 }
