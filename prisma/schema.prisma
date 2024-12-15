@@ -1,0 +1,24 @@
+// https://authjs.dev/getting-started/adapters/prisma
+
+// This is just an example schema for now to get as much as provided data from user login
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+ 
+generator client {
+  provider = "prisma-client-js"
+}
+ 
+model User {
+  id            String          @id @default(cuid())
+  name          String?
+  email         String          @unique
+  userAuthId    String          @default("ErrorHappened")
+  image         String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+ 

@@ -279,7 +279,7 @@ Your tone should be compassionate, respectful, and approachable, creating a safe
     icon: Music,
   },
   {
-    id: "smokers-rasp",
+    id: "Misty",
     name: "Misty",
     description:
       "A showcase of the Misty tuned models ability to handle a student in indian in HINGLISH with the best range of voice.",

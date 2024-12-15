@@ -3,19 +3,20 @@
 import React, { useEffect } from "react";
 import { usePlaygroundState } from "@/hooks/use-playground-state";
 import { Button } from "@/components/ui/button";
+// import prisma from "@/db/db";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
+  // DialogDescription,
+  // DialogHeader,
+  // DialogTitle,
 } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
+  // FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -24,10 +25,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ellipsisMiddle } from "@/lib/utils";
-import { AuthBanner } from "./authBanner";
-import { LockKeyhole } from "lucide-react";
-import { ArrowUpRight } from "lucide-react";
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { SignIn } from "./signin";
 
 const AuthFormSchema = z.object({
@@ -116,40 +113,12 @@ export function AuthDialog({
         isModal={true}
       >
         <div className="overflow-y-auto">
-          <AuthBanner />
           <div className="px-6 pb-6 pt-4 overflow-y-auto">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col gap-4"
               >
-                <DialogHeader className="gap-2">
-                  <DialogTitle>OpenAI Realtime API Playground</DialogTitle>
-                  <DialogDescription>
-                    Try out OpenAI&apos;s new Realtime API right from your
-                    browser with this playground built on{" "}
-                    <a
-                      href="https://github.com/livekit/agents"
-                      target="_blank"
-                      className="underline"
-                    >
-                      LiveKit Agents
-                    </a>
-                    .
-                  </DialogDescription>
-                  <DialogDescription>
-                    You must have a valid{" "}
-                    <a
-                      href="https://platform.openai.com/api-keys"
-                      target="_blank"
-                      className="underline text-oai-green"
-                    >
-                      OpenAI API key
-                    </a>{" "}
-                    to connect the playground to your own OpenAI platform
-                    account.
-                  </DialogDescription>
-                </DialogHeader>
                 <div className="bg-black/10 h-[1px] w-full" />
                 <FormField
                   control={form.control}
@@ -157,17 +126,6 @@ export function AuthDialog({
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex flex-col gap-2">
-                        <FormLabel className="font-semibold text-sm whitespace-nowrap">
-                          Enter your{" "}
-                          <a
-                            href="https://platform.openai.com/api-keys"
-                            target="_blank"
-                            className="inline-flex items-center text-oai-green underline"
-                          >
-                            OpenAI API Key
-                            <ArrowUpRight className="h-4 w-4 ml-1" />
-                          </a>
-                        </FormLabel>
                         <div className="flex gap-2 w-full">
                           <FormControl className="w-full">
                             <Input
@@ -183,27 +141,6 @@ export function AuthDialog({
                     </FormItem>
                   )}
                 />
-                <DialogDescription className="text-xs py-2 flex justify-between items-center">
-                  <div className="flex items-center gap-2 flex-1">
-                    <LockKeyhole className="h-3 w-3 flex-shrink-0" />
-                    <span className="font-semibold">
-                      Your key is stored only in your browser&apos;s
-                      LocalStorage.
-                    </span>
-                  </div>
-
-                  <div className="flex items-center flex-1 justify-end">
-                    <a
-                      href="https://github.com/livekit-examples/realtime-playground"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline flex items-center gap-1"
-                    >
-                      <GitHubLogoIcon className="h-5 w-5" />
-                      View source on GitHub
-                    </a>
-                  </div>
-                </DialogDescription>
               </form>
             </Form>
           </div>
