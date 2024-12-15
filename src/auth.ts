@@ -4,6 +4,9 @@ import prisma from "./db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [Google],
+  pages : {
+    signIn : "/onBoardingPage"
+  },
   callbacks: {
     async signIn({ user, account }) {
       if (!user.email) {

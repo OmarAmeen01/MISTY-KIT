@@ -1,24 +1,26 @@
-// https://authjs.dev/getting-started/adapters/prisma
-
-// This is just an example schema for now to get as much as provided data from user login
-
-
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
- 
+
 generator client {
   provider = "prisma-client-js"
+  engineType = "library"
 }
- 
+
 model User {
-  id            String          @id @default(cuid())
-  name          String?
-  email         String          @unique
-  userAuthId    String          @default("ErrorHappened")
-  image         String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  name       String?
+  email      String   @unique
+  userAuthId String   @default("ErrorHappened")
+  onboarded  Boolean  @default(false)
+  image      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // New onboarding fields
+  studyGoal          String? @default("Efficiently")
+  dailyStudyHours    String? @default("just enough to get my job done")
+  interestedSubjects String? @default("Everything")
+  // Need to look at what revision dojo asks for and then get all that here  eventually aswell
 }
- 

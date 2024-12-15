@@ -3,29 +3,24 @@
 import React, { useEffect } from "react";
 import { usePlaygroundState } from "@/hooks/use-playground-state";
 import { Button } from "@/components/ui/button";
-// import prisma from "@/db/db";
 import {
   Dialog,
   DialogContent,
-  // DialogDescription,
-  // DialogHeader,
-  // DialogTitle,
 } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  // FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useSession } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ellipsisMiddle } from "@/lib/utils";
-import { SignIn } from "./signin";
+// import { auth } from "@/auth";
 
 const AuthFormSchema = z.object({
   openaiAPIKey: z.string().min(1, { message: "API key is required" }),
@@ -35,6 +30,8 @@ export function Auth() {
   const { pgState, dispatch, showAuthDialog, setShowAuthDialog } =
     usePlaygroundState();
 
+  const { data: session } = useSession();
+
   const onLogout = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -42,22 +39,34 @@ export function Auth() {
     dispatch({ type: "SET_API_KEY", payload: null });
     setShowAuthDialog(true);
   };
-  const {data: session} = useSession()
-  
-  if (!session?.user?.email) {
-    return (
-      <>
-        You need to go sign in
-        <SignIn />
-      </>
-    );
-  }
-  
-  
+// const auth = await auth(
   return (
     <div>
+      {/* Check if user is signed in */}
+      {!session ? (
+        <Button onClick={() => signIn()} className="mb-4">
+          Sign In
+        </Button>
+      ) : (
+        <div className="flex flex-col gap-2">
+          <div className="text-sm text-gray-700">
+            Signed in as: <span className="font-bold">{session.user?.email}</span>
+          </div>
+          <Button
+            onClick={() => signOut()}
+            variant="destructive"
+            className="w-fit"
+          >
+            Sign Out
+          </Button>
+        </div>
+      )}
+<div>
+{session?.user?.email}
+</div>
+      {/* Display OpenAI API Key Section */}
       {pgState.openaiAPIKey && (
-        <div className="text-xs flex gap-2 items-center">
+        <div className="text-xs flex gap-2 items-center mt-4">
           <span className="font-semibold text-neutral-700">
             Using OpenAI API Key
           </span>
@@ -69,6 +78,8 @@ export function Auth() {
           </a>
         </div>
       )}
+
+      {/* Auth Dialog */}
       <AuthDialog
         open={showAuthDialog}
         onOpenChange={setShowAuthDialog}
@@ -95,7 +106,6 @@ export function AuthDialog({
     },
   });
 
-  // Add this useEffect hook to watch for changes in pgState.openaiAPIKey
   useEffect(() => {
     form.setValue("openaiAPIKey", pgState.openaiAPIKey || "");
   }, [pgState.openaiAPIKey, form]);
@@ -150,4 +160,3 @@ export function AuthDialog({
     </Dialog>
   );
 }
-z
