@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { PHProvider } from "@/hooks/posthog-provider";
 import { Public_Sans } from "next/font/google";
 import dynamic from "next/dynamic";
-
+import { Analytics } from "@vercel/analytics/react";
 const PostHogPageView = dynamic(
   () => import("../components/posthog-pageview"),
   {
@@ -39,6 +39,7 @@ export default function RootLayout({
               <ConnectionProvider>
                 <TooltipProvider>
                   <PostHogPageView />
+                  <Analytics />
                   {children}
                   <Toaster />
                 </TooltipProvider>
