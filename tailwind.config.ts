@@ -28,6 +28,10 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  // plugins: [require("tailwindcss-animate") , ("@tailwindcss/typography")],
+  plugins: [
+    require("tailwindcss-animate"), // Correctly require the plugin
+    require("@tailwindcss/typography"), // Fix plugin import here
+  ],
 };
 export default config;
