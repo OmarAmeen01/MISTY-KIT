@@ -138,7 +138,7 @@ export default function OnboardingMCQs() {
       });
 
       if (response.ok) {
-        router.push("/home");
+        router.push("/");
       } else {
         // Handle error
         const errorData = await response.json();

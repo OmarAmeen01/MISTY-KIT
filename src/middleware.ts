@@ -1,27 +1,31 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
-export function middleware(req: NextRequest) {
-  // More robust authentication check
-  const authToken = req.cookies.get('auth_token')?.value;
-  
+export async function middleware(req: NextRequest) {
   // List of pages where authentication is required
-  const protectedPaths = ['/audio-explainer']; // Note the leading slash
+  const protectedPaths = ['/audio-explainer'];
 
   // Check if the current path is a protected path
-  const isProtectedPage = protectedPaths.some((path) => 
+  const isProtectedPage = protectedPaths.some((path) =>
     req.nextUrl.pathname.startsWith(path)
   );
 
-  // If the page is protected and no valid auth token exists, redirect to login
-  if (isProtectedPage && !authToken) {
-    return NextResponse.redirect(new URL('/onBoardingPage', req.url));
+  if (isProtectedPage) {
+    const token = await getToken({ 
+      req, 
+      secret: process.env.AUTH_SECRET // Add your NextAuth secret here
+    });
+
+    // If no token exists, redirect to login
+    if (!token) {
+      return NextResponse.redirect(new URL('/onBoardingPage', req.url));
+    }
   }
 
-  // Allow access to the page
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ['/audio-explainer'], // Ensure paths match exactly
+  matcher: ['/audio-explainer']
 };

@@ -19,37 +19,30 @@ export default function OnBoardingPage() {
 
     // Check onboarding status after user is authenticated
     const checkOnboardingStatus = async () => {
-      if (session?.user?.email) {
-        const email = session.user.email;
+      if (status === "authenticated") {
+        // const email = session.user.email;
 
-        try {
-          const response = await fetch(`/api/check-onboarding?email=${email}`);
-          if (response.ok) {
+        const checkOnboarding = async () => {
+          try {
+            const response = await fetch(`/api/check-onboarding?email=${session.user?.email}`);
             const data = await response.json();
+  
             if (data.onboarded) {
-              // Redirect to home if onboarded
-              router.push("/home");
+              router.push("/");  // Redirect to home if onboarded
             } else {
-              // Redirect to the MCQs page if not onboarded
-              router.push("/onBoardingPage/mcqs");
+              router.push("/onBoardingPage/mcqs");  // Redirect to MCQs if not onboarded
             }
-          } else {
-            console.error(
-              "Error checking onboarding status:",
-              response.statusText
-            );
+          } catch (error) {
+            console.error("Onboarding check failed", error);
           }
-        } catch (error) {
-          console.error("Failed to fetch onboarding status:", error);
-        }
+        };
+  
+        checkOnboarding();
       }
-    };
+  
+      }
+    }, [session, status, router]);
 
-    // Execute the check onboarding function
-    if (status === "authenticated") {
-      checkOnboardingStatus();
-    }
-  }, [session, status, router]);
 
   return (
     <div className="flex h-screen">
