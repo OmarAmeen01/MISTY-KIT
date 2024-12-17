@@ -3,7 +3,8 @@ const nextConfig = {
   images: {
     domains: [
       'hebbkx1anhila5yf.public.blob.vercel-storage.com',
-      'cdn.vox-cdn.com', // Remove 'https://'
+      'cdn.vox-cdn.com', 
+      'https://www.youtube.com'// Remove 'https://'
     ],
   },
   webpack(config) {
