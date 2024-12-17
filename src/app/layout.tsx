@@ -24,6 +24,7 @@ const publicSans = Public_Sans({
 
 import "@livekit/components-styles";
 import { SessionProvider } from "next-auth/react";
+import { Navbar } from "@/components/auth";
 
 export default function RootLayout({
   children,
@@ -40,6 +41,7 @@ export default function RootLayout({
                 <TooltipProvider>
                   <PostHogPageView />
                   <Analytics />
+                  <Navbar/>
                   {children}
                   <Toaster />
                 </TooltipProvider>

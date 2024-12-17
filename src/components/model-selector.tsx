@@ -35,7 +35,7 @@ export function ModelSelector({ form, ...props }: ConfigurationFormFieldProps) {
         <HoverCard openDelay={200}>
           <HoverCardTrigger asChild>
             <FormItem className="flex flex-row items-center space-y-0 justify-between">
-              <FormLabel className="text-sm">Model</FormLabel>
+              <FormLabel className="text-sm">Current used model </FormLabel>
               <Select
                 onValueChange={(v) => {
                   if (

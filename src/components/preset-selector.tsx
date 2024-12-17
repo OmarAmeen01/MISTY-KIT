@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CaretSortIcon, FileIcon } from "@radix-ui/react-icons";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 import { Check, Trash } from "lucide-react";
 import { PopoverProps } from "@radix-ui/react-popover";
 import { toast } from "@/hooks/use-toast";
@@ -45,7 +45,7 @@ export function PresetSelector(props: PopoverProps) {
   const [open, setOpen] = React.useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   const [presetToDelete, setPresetToDelete] = React.useState<Preset | null>(
-    null,
+    null
   );
   const { pgState, dispatch, helpers } = usePlaygroundState();
   const { disconnect, connect, shouldConnect } = useConnection();
@@ -107,7 +107,7 @@ export function PresetSelector(props: PopoverProps) {
       window.history.replaceState(
         {},
         document.title,
-        `${window.location.pathname}${params ? `?${params}` : ""}`,
+        `${window.location.pathname}${params ? `?${params}` : ""}`
       );
     }
   };
@@ -174,7 +174,7 @@ export function PresetSelector(props: PopoverProps) {
                               "h-4 w-4",
                               pgState.selectedPresetId === preset.id
                                 ? "opacity-100"
-                                : "opacity-0",
+                                : "opacity-0"
                             )}
                           />
                           <Button
@@ -197,18 +197,6 @@ export function PresetSelector(props: PopoverProps) {
               )}
 
               <CommandSeparator />
-
-              <CommandGroup>
-                <CommandItem
-                  value="blank"
-                  onSelect={() => handlePresetSelect(null)}
-                >
-                  <div className="flex items-center">
-                    <FileIcon className="mr-2 h-4 w-4" />
-                    <span>Start from scratch</span>
-                  </div>
-                </CommandItem>
-              </CommandGroup>
 
               {Object.values(PresetGroup).map((group) => (
                 <CommandGroup key={group} heading={group}>
@@ -245,7 +233,7 @@ export function PresetSelector(props: PopoverProps) {
                             "ml-auto h-4 w-4 mr-2",
                             pgState.selectedPresetId === preset.id
                               ? "opacity-100"
-                              : "opacity-0",
+                              : "opacity-0"
                           )}
                         />
                       </CommandItem>
