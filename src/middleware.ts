@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { getToken } from 'next-auth/jwt';
+import { auth } from './auth'; // Import your auth configuration
 
 export async function middleware(req: NextRequest) {
   // List of pages where authentication is required
@@ -13,32 +13,21 @@ export async function middleware(req: NextRequest) {
 
   if (isProtectedPage) {
     try {
-      const token = await getToken({ 
-        req, 
-        secret: process.env.AUTH_SECRET 
-      });
+      const session = await auth();
 
-      console.log('Vercel Middleware Debug:', {
+      console.log('Middleware Session Check:', {
+        session,
         isProtectedPage,
-        tokenExists: !!token,
-        tokenEmail: token?.email,
-        tokenExpiration: token?.exp,
-        pathname: req.nextUrl.pathname,
-        cookies: req.cookies.getAll(),
-        environment: process.env.NODE_ENV,
-        // vercelUrl: process.env.VERCEL_URL,
-        nextAuthUrl: process.env.AUTH_URL,
-        host: req.headers.get('host'),
-        origin: req.headers.get('origin')
+        pathname: req.nextUrl.pathname
       });
 
-      // More robust token validation
-      if (!token?.email) {
-        console.log('No valid token found, redirecting to OnBoarding');
+      // If no valid session exists, redirect to login
+      if (!session?.user?.email) {
+        console.log('No valid session found, redirecting to OnBoarding');
         return NextResponse.redirect(new URL('/onBoardingPage', req.url));
       }
     } catch (error) {
-      console.error('Middleware Authentication Catch Block:', error);
+      console.error('Middleware Authentication Error:', error);
       return NextResponse.redirect(new URL('/onBoardingPage', req.url));
     }
   }

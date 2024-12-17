@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     if (user) {
       return NextResponse.json({ onboarded: user.onboarded }, { status: 200 });
     } else {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ message: "user is not onboarded not found" }, { status: 404 });
     }
   } catch (error) {
     console.error(error);

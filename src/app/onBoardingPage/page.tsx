@@ -1,47 +1,77 @@
-"use client";
+// "use client";
 
-import { useEffect, useState } from "react";
-import { getCsrfToken, signIn, useSession } from "next-auth/react";
+// import { useEffect, useState } from "react";
+// import { getCsrfToken, signIn, useSession } from "next-auth/react";
+// import { useRouter } from "next/navigation";
+// import Image from "next/image";
+
+// export default function OnBoardingPage() {
+//   const [csrfToken, setCsrfToken] = useState<string | null>(null);
+//   const { data: session, status } = useSession();
+//   const router = useRouter();
+
+//   useEffect(() => {
+//     const fetchCsrfToken = async () => {
+//       const token = await getCsrfToken();
+//       setCsrfToken(token);
+//     };
+//     fetchCsrfToken();
+
+//     // Check onboarding status after user is authenticated
+//     const checkOnboardingStatus = async () => {
+//       if (status === "authenticated") {
+//         // const email = session.user.email;
+
+//         const checkOnboarding = async () => {
+//           try {
+//             const response = await fetch(`/api/check-onboarding?email=${session.user?.email}`);
+//             const data = await response.json();
+  
+//             if (data.onboarded) {
+//               router.push("/");  // Redirect to home if onboarded
+//             } else {
+//               router.push("/onBoardingPage/mcqs");  // Redirect to MCQs if not onboarded
+//             }
+//           } catch (error) {
+//             console.error("Onboarding check failed", error);
+//           }
+//         };
+  
+//         checkOnboarding();
+//       }
+  
+//       }
+//     }, [session, status, router]);
+"use client";
+import { useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 export default function OnBoardingPage() {
-  const [csrfToken, setCsrfToken] = useState<string | null>(null);
   const { data: session, status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchCsrfToken = async () => {
-      const token = await getCsrfToken();
-      setCsrfToken(token);
-    };
-    fetchCsrfToken();
+    if (status === "authenticated") {
+      const checkOnboarding = async () => {
+        try {
+          const response = await fetch(`/api/check-onboarding?email=${session.user?.email}`);
+          const data = await response.json();
 
-    // Check onboarding status after user is authenticated
-    const checkOnboardingStatus = async () => {
-      if (status === "authenticated") {
-        // const email = session.user.email;
-
-        const checkOnboarding = async () => {
-          try {
-            const response = await fetch(`/api/check-onboarding?email=${session.user?.email}`);
-            const data = await response.json();
-  
-            if (data.onboarded) {
-              router.push("/");  // Redirect to home if onboarded
-            } else {
-              router.push("/onBoardingPage/mcqs");  // Redirect to MCQs if not onboarded
-            }
-          } catch (error) {
-            console.error("Onboarding check failed", error);
+          if (data.onboarded) {
+            router.push("/");  // Redirect to home if onboarded
+          } else {
+            router.push("/onBoardingPage/mcqs");  // Redirect to MCQs if not onboarded
           }
-        };
-  
-        checkOnboarding();
-      }
-  
-      }
-    }, [session, status, router]);
+        } catch (error) {
+          console.error("Onboarding check failed", error);
+        }
+      };
+
+      checkOnboarding();
+    }
+  }, [session, status, router]);
 
 
   return (
