@@ -69,7 +69,7 @@ export function Navbar() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger
-          className={`flex items-center hover:text-gray-900 ${
+          className={`font-serif text-xl flex items-center hover:text-gray-900 ${
             isActive("/audio-explainer") ? "text-sky-500" : "text-gray-600"
           }`}
         >
@@ -168,7 +168,7 @@ export function Navbar() {
     <div className="flex flex-col w-full">
       {/* Announcement Banner */}
       <div className="w-full bg-orange-500 text-white text-center py-2 text-sm">
-        We are currently in alpha! We haven&apost launched and are still under a lot
+        We are currently in alpha! We haven&apos;t launched and are still under a lot
         of development changes.
       </div>
       
@@ -177,8 +177,8 @@ export function Navbar() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div>
-              <Link href="/" className="text-xl font-semibold">
-                ΣChintu
+              <Link href="/" className="font-sans text-xl font-semibold">
+                ΣClassroom
               </Link>
             </div>
 

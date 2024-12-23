@@ -1,39 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+Pro:wght@400;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 51, 51, 51;
+  --background-start-rgb: 245, 242, 236;
+  --background-end-rgb: 245, 242, 236;
   
   /* Additional color variables for dark mode */
-  --background-dark-start-rgb: 0, 0, 0;
-  --background-dark-end-rgb: 0, 0, 0;
+  --background-dark-start-rgb: 28, 25, 23;
+  --background-dark-end-rgb: 28, 25, 23;
   
   /* Tailwind-compatible color variables */
-  --background: 214 219 220;
-  --foreground: 0 0 0;
+  --background: 245 242 236;
+  --foreground: 51 51 51;
   
   --radius: 0.5rem;
+
+  --font-serif: 'Playfair Display', Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: 'Source Sans Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
+    --foreground-rgb: 229, 229, 229;
     --background-start-rgb: var(--background-dark-start-rgb);
     --background-end-rgb: var(--background-dark-end-rgb);
     
     /* Tailwind dark mode colors */
-    --background: 0 0 0;
-    --foreground: 255 255 255;
+    --background: 28 25 23;
+    --foreground: 229 229 229;
   }
 }
 
 /* Dark mode support for Tailwind */
 .dark {
-  --background: 0 0 0;
-  --foreground: 255 255 255;
+  --background: 28 25 23;
+  --foreground: 229 229 229;
 }
 
 @layer utilities {
@@ -56,6 +61,7 @@ html {
   flex-direction: column;
   background: rgb(var(--background-start-rgb) / 1);
   color: rgb(var(--foreground-rgb) / 1);
+  font-family: var(--font-sans);
 }
 
 /* Dark mode background gradient support */
@@ -110,3 +116,25 @@ html.dark {
   font-weight: 700;
   font-style: normal;
 }
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
