@@ -112,7 +112,7 @@ export default function Home() {
               size="lg"
               className="bg-amber-700 hover:bg-amber-800 text-white px-10 py-4 text-xl font-serif rounded-full transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
             >
-              Join Our Academy — It's Complimentary!
+              Join Our Academy — It&apos;s Complimentary!
             </Button>
 
             <div className="mt-24 grid grid-cols-1 gap-12 sm:grid-cols-3">
