@@ -1,352 +1,270 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
+import { Upload, File } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
-interface Question {
-  id: number;
-  question: string;
-  options: string[];
-  correctAnswer: string;
-  explanation: string;
+interface ColumnItem {
+  key: string;
+  value: string;
 }
 
-const questions: Question[] = [
-  {
-    id: 1,
-    question: 'Which of the following is a critical research area of biotechnology?',
-    options: [
-      'Providing the best catalyst in the form of improved organisms.',
-      'Creating optimal conditions for a catalyst to act.',
-      'Downstream processing technologies.',
-      'All of the above.',
-    ],
-    correctAnswer: 'All of the above.',
-    explanation: 'These are the three core areas that drive progress in biotechnology research and application.',
-  },
-  {
-    id: 2,
-    question: 'The Green Revolution primarily succeeded due to:',
-    options: [
-      'Exclusive use of genetically engineered crops.',
-      'Primarily organic agricultural practices.',
-      'Use of improved crop varieties, better management practices, and agrochemicals.',
-      'A decrease in the human population.',
-    ],
-    correctAnswer:
-      'Use of improved crop varieties, better management practices, and agrochemicals.',
-    explanation:
-      'The Green Revolution significantly increased food production through a combination of these factors.',
-  },
-  {
-    id: 3,
-    question: 'The capacity of a plant cell/explant to generate a whole plant is called:',
-    options: ['Micro-propagation', 'Somatic hybridization', 'Totipotency', 'Explantation'],
-    correctAnswer: 'Totipotency',
-    explanation: 'Totipotency is the inherent ability of a plant cell to differentiate into any other cell type, enabling regeneration.',
-  },
-  {
-    id: 4,
-    question:
-      'Plants produced through micro-propagation are genetically identical to the original plant. These are known as:',
-    options: ['Somatic hybrids', 'Transgenic plants', 'Somaclones', 'Genetically modified organisms'],
-    correctAnswer: 'Somaclones',
-    explanation: 'Somaclones are genetically uniform plants produced from a single plant through tissue culture.',
-  },
-  {
-    id: 5,
-    question: 'Virus-free plants can be obtained through tissue culture by using:',
-    options: ['Root tips', 'Apical and axillary meristems', 'Mature leaves', 'Any part of the infected plant'],
-    correctAnswer: 'Apical and axillary meristems',
-    explanation: 'Meristematic tissues are often virus-free, making them suitable for obtaining healthy plants.',
-  },
-  {
-    id: 6,
-    question:
-      'The fusion of protoplasts from two different varieties of plants to obtain a hybrid is known as:',
-    options: ['Micro-propagation', 'Somatic hybridization', 'Genetic engineering', 'Tissue culture'],
-    correctAnswer: 'Somatic hybridization',
-    explanation: 'Somatic hybridization involves fusing protoplasts to combine the genetic material of different plants.',
-  },
-  {
-    id: 7,
-    question: 'Which of the following is an advantage of using genetically modified (GM) crops?',
-    options: [
-      'Increased reliance on chemical pesticides.',
-      'Decreased tolerance to abiotic stresses.',
-      'Reduced post-harvest losses.',
-      'Decreased efficiency of mineral usage.',
-    ],
-    correctAnswer: 'Reduced post-harvest losses.',
-    explanation: 'GM crops can be engineered for better storage and resistance to spoilage, reducing losses.',
-  },
-  {
-    id: 8,
-    question: 'Bt toxin is produced by which of the following bacteria?',
-    options: [
-      'Escherichia coli',
-      'Agrobacterium tumefaciens',
-      'Bacillus thuringiensis',
-      'Rhizobium leguminosarum',
-    ],
-    correctAnswer: 'Bacillus thuringiensis',
-    explanation: 'Bacillus thuringiensis is a bacterium known for producing insecticidal proteins.',
-  },
-  {
-    id: 9,
-    question: 'The insecticidal protein produced by Bacillus thuringiensis is initially in an inactive form called:',
-    options: ['Toxin', 'Protoxin', 'Endotoxin', 'Exotoxin'],
-    correctAnswer: 'Protoxin',
-    explanation: 'The Bt toxin is synthesized as an inactive protoxin and is activated in the insect gut.',
-  },
-  {
-    id: 10,
-    question: 'The activation of Bt toxin in the gut of insects involves:',
-    options: ['Acidic pH', 'Neutral pH', 'Alkaline pH', 'Any pH'],
-    correctAnswer: 'Alkaline pH',
-    explanation: 'The alkaline pH in the insect gut facilitates the activation of the Bt protoxin.',
-  },
-  {
-    id: 11,
-    question: 'RNA interference (RNAi) involves silencing of specific mRNA due to:',
-    options: ['Single-stranded RNA', 'Double-stranded RNA', 'Transfer RNA', 'Messenger RNA'],
-    correctAnswer: 'Double-stranded RNA',
-    explanation: 'dsRNA triggers the RNAi pathway, leading to the degradation of target mRNA.',
-  },
-  {
-    id: 12,
-    question: 'The first clinical gene therapy was given for the treatment of:',
-    options: ['Cancer', 'Diabetes', 'Adenosine deaminase (ADA) deficiency', 'Cystic fibrosis'],
-    correctAnswer: 'Adenosine deaminase (ADA) deficiency',
-    explanation: 'The first successful gene therapy targeted ADA deficiency, a genetic disorder affecting the immune system.',
-  },
-  {
-    id: 13,
-    question: 'Genetically engineered insulin is produced by inserting the human insulin gene into:',
-    options: ['Animal cells', 'Plant cells', 'Bacteria', 'Fungal cells'],
-    correctAnswer: 'Bacteria',
-    explanation: 'Bacteria, like E. coli, are commonly used as bioreactors to produce recombinant proteins like insulin.',
-  },
-  {
-    id: 14,
-    question: 'The C-peptide is:',
-    options: [
-      'Part of the mature insulin molecule.',
-      'Present in proinsulin but removed during maturation.',
-      'Responsible for the activity of insulin.',
-      'A chain linked to chain A in insulin.',
-    ],
-    correctAnswer: 'Present in proinsulin but removed during maturation.',
-    explanation: 'C-peptide connects the A and B chains in proinsulin and is cleaved off to form mature insulin.',
-  },
-  {
-    id: 15,
-    question: 'Early detection of pathogens can be done by:',
-    options: [
-      'Observing disease symptoms only.',
-      'Recombinant DNA technology, PCR, and ELISA.',
-      'Traditional serum and urine analysis only.',
-      'Culturing the pathogen only.',
-    ],
-    correctAnswer: 'Recombinant DNA technology, PCR, and ELISA.',
-    explanation:
-      'These techniques allow for the detection of pathogens at very low concentrations, before symptoms appear.',
-  },
-  {
-    id: 16,
-    question:
-      'Animals that have had their DNA manipulated to possess and express an extra gene are known as:',
-    options: ['Hybrid animals', 'Cloned animals', 'Transgenic animals', 'Mutated animals'],
-    correctAnswer: 'Transgenic animals',
-    explanation: 'Transgenic animals carry foreign genes introduced through genetic engineering.',
-  },
-  {
-    id: 17,
-    question: 'Which of the following is an example of a transgenic animal being used for biological products?',
-    options: [
-      'Transgenic mice used to study cancer.',
-      'Transgenic cows producing human protein-enriched milk.',
-      'Transgenic sheep used for vaccine safety testing.',
-      'Transgenic pigs used for organ transplantation research.',
-    ],
-    correctAnswer: 'Transgenic cows producing human protein-enriched milk.',
-    explanation:
-      'Transgenic animals can be engineered to produce valuable proteins in their milk or other body fluids.',
-  },
-  {
-    id: 18,
-    question: 'GEAC, an organization in India, deals with:',
-    options: [
-      'Environmental protection.',
-      'Regulating the safety of genetically modified organisms.',
-      'Promoting organic farming.',
-      'Wildlife conservation.',
-    ],
-    correctAnswer: 'Regulating the safety of genetically modified organisms.',
-    explanation: 'The Genetic Engineering Appraisal Committee (GEAC) assesses the safety of GM research and applications.',
-  },
-  {
-    id: 19,
-    question: 'The term "biopiracy" refers to:',
-    options: [
-      'Illegal hunting of endangered species.',
-      'Using bio-resources without proper authorization and compensatory payment.',
-      'Introduction of exotic species into a new environment.',
-      'Destruction of natural habitats for agricultural purposes.',
-    ],
-    correctAnswer: 'Using bio-resources without proper authorization and compensatory payment.',
-    explanation: 'Biopiracy involves the exploitation of biological resources and traditional knowledge without fair compensation.',
-  },
-  {
-    id: 20,
-    question: 'Golden rice is an example of a genetically modified crop with enhanced:',
-    options: [
-      'Pest resistance',
-      'Herbicide tolerance',
-      'Vitamin A content',
-      'Shelf life',
-    ],
-    correctAnswer: 'Vitamin A content',
-    explanation: 'Golden rice is engineered to produce beta-carotene, a precursor to Vitamin A.',
-  },
-];
+interface Combinations {
+  [key: string]: string;
+}
 
-const BiotechnologyQuiz: React.FC = () => {
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>(Array(questions.length).fill(''));
-  const [submitted, setSubmitted] = useState(false);
-  const [score, setScore] = useState(0);
+interface Question {
+  number: number;
+  type: 'single' | 'matching';
+  text: string;
+  options: string[];
+  correctOption: string;
+  explanation?: string;
+  columnI?: ColumnItem[];
+  columnII?: ColumnItem[];
+  combinations?: Combinations[];
+}
 
-  const handleOptionClick = (questionIndex: number, option: string) => {
-    const newAnswers = [...selectedAnswers];
-    newAnswers[questionIndex] = option;
-    setSelectedAnswers(newAnswers);
+interface ExamPaper {
+  questions: Question[];
+}
+
+const NEETPage = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [examPaper, setExamPaper] = useState<ExamPaper | null>(null);
+  const [error, setError] = useState<string>('');
+  const [showAnswers, setShowAnswers] = useState(false);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && selectedFile.type === 'application/pdf') {
+      setFile(selectedFile);
+      setError('');
+    } else {
+      setError('Please select a valid PDF file');
+    }
   };
 
-  const handleSubmit = () => {
-    let newScore = 0;
-    questions.forEach((question, index) => {
-      if (selectedAnswers[index] === question.correctAnswer) {
-        newScore += 4;
-      } else if (selectedAnswers[index] !== '') {
-        newScore -= 1;
+  const handleSubmit = async () => {
+    if (!file) return;
+    setLoading(true);
+    setError('');
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const response = await fetch('/api/generate-questions', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate exam paper');
       }
-    });
-    setScore(newScore);
-    setSubmitted(true);
+
+      const data = await response.json();
+      setExamPaper(data.examPaper);
+    } catch (err) {
+      setError('Failed to generate exam paper. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderMatchingQuestion = (question: Question) => {
+    if (!question.columnI || !question.columnII) return null;
+
+    return (
+      <div className="mt-4 space-y-4">
+        <div className="grid grid-cols-2 gap-8 bg-gray-50 p-4 rounded-lg">
+          <div>
+            <div className="font-medium mb-2 text-gray-700">Column - I</div>
+            {question.columnI.map((item) => (
+              <div key={item.key} className="mb-2 flex items-start">
+                <span className="font-medium mr-2">({item.key})</span>
+                <span>{item.value}</span>
+              </div>
+            ))}
+          </div>
+          <div>
+            <div className="font-medium mb-2 text-gray-700">Column - II</div>
+            {question.columnII.map((item) => (
+              <div key={item.key} className="mb-2 flex items-start">
+                <span className="font-medium mr-2">({item.key})</span>
+                <span>{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="pl-8 space-y-2">
+          {question.combinations?.map((combo, idx) => (
+            <div
+              key={idx}
+              className={`p-2 rounded ${
+                showAnswers && idx + 1 === parseInt(question.correctOption)
+                  ? 'bg-green-100'
+                  : 'hover:bg-gray-50'
+              }`}
+            >
+              <span className="font-medium">({idx + 1})</span>{' '}
+              {Object.entries(combo)
+                .map(([k, v]) => `${k}-${v}`)
+                .join(', ')}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="p-4 max-w-3xl mx-auto min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
-        AI generated BIOTECH APP qpa v-0.0.01
-      </h1>
-      {!submitted ? (
-        <div className="space-y-8">
-          {questions.map((question, questionIndex) => (
-            <div 
-              key={question.id} 
-              className="mb-6 p-6 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl bg-white border border-gray-100"
-            >
-              <p className="mb-4 font-semibold text-lg text-gray-800">
-                <span className="inline-block w-8 h-8 leading-8 text-center bg-blue-100 text-blue-600 rounded-full mr-2">
-                  {questionIndex + 1}
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-5xl mx-auto px-4">
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>NEET Question Paper Generator</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
+              <input
+                type="file"
+                accept=".pdf"
+                onChange={handleFileChange}
+                className="hidden"
+                id="file-upload"
+              />
+              <label
+                htmlFor="file-upload"
+                className="cursor-pointer flex flex-col items-center"
+              >
+                <Upload className="h-12 w-12 text-gray-400 mb-4" />
+                <span className="text-sm text-gray-600">
+                  {file ? file.name : 'Upload PDF study material'}
                 </span>
-                {question.question}
-              </p>
-              <div className="grid grid-cols-1 gap-3">
-                {question.options.map((option) => (
-                  <button
-                    key={option}
-                    className={`p-3 rounded-lg border text-left transition-all duration-200 ${
-                      selectedAnswers[questionIndex] === option 
-                        ? 'bg-blue-100 border-blue-500 text-blue-700 shadow-md' 
-                        : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
-                    }`}
-                    onClick={() => handleOptionClick(questionIndex, option)}
-                  >
-                    {option}
-                  </button>
-                ))}
-              </div>
+              </label>
             </div>
-          ))}
-          <div className="sticky bottom-4 bg-white p-4 border-t shadow-lg rounded-lg">
-            <button
-              onClick={handleSubmit}
-              className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200"
-            >
-              Submit All Answers
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="mb-4 space-y-8">
-          <div className="p-6 rounded-xl bg-white shadow-lg border border-gray-100">
-            <h2 className="text-2xl font-bold mb-2 text-gray-800">Quiz Results</h2>
-            <p className="text-xl mb-4">
-              Your Score: <span className="font-bold text-blue-600">{score}</span>
-            </p>
-          </div>
-          
-          {questions.map((question, index) => {
-            const isCorrect = selectedAnswers[index] === question.correctAnswer;
-            const isAnswered = selectedAnswers[index] !== '';
-            
-            return (
-              <div 
-                key={question.id} 
-                className={`p-6 rounded-xl shadow-lg transition-all duration-200 ${
-                  isCorrect 
-                    ? 'bg-green-50 border border-green-200' 
-                    : isAnswered 
-                      ? 'bg-red-50 border border-red-200'
-                      : 'bg-gray-50 border border-gray-200'
+
+            {error && (
+              <Alert variant="destructive" className="mt-4">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+
+            <div className="flex gap-4 mt-6">
+              <button
+                onClick={handleSubmit}
+                disabled={!file || loading}
+                className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
+                  !file || loading
+                    ? 'bg-gray-300'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
                 }`}
               >
-                <p className="font-bold text-lg mb-4 text-gray-800">
-                  <span className={`inline-block w-8 h-8 leading-8 text-center rounded-full mr-2 ${
-                    isCorrect 
-                      ? 'bg-green-100 text-green-600' 
-                      : isAnswered 
-                        ? 'bg-red-100 text-red-600'
-                        : 'bg-gray-100 text-gray-600'
-                  }`}>
-                    {index + 1}
+                {loading ? (
+                  <span className="flex items-center justify-center">
+                    <File className="animate-spin h-5 w-5 mr-2" />
+                    Generating...
                   </span>
-                  {question.question}
-                </p>
-                
-                <div className="space-y-3 mb-4">
-                  <p className="flex items-center">
-                    <span className="font-semibold mr-2">Your Answer:</span>
-                    <span className={`px-3 py-1 rounded-full ${
-                      isCorrect
-                        ? 'bg-green-100 text-green-700'
-                        : isAnswered
-                          ? 'bg-red-100 text-red-700'
-                          : 'bg-gray-100 text-gray-700'
-                    }`}>
-                      {selectedAnswers[index] || 'Not Answered'}
-                    </span>
-                  </p>
-                  
-                  <p className="flex items-center">
-                    <span className="font-semibold mr-2">Correct Answer:</span>
-                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full">
-                      {question.correctAnswer}
-                    </span>
-                  </p>
-                </div>
-                
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="font-semibold mb-1">Explanation:</p>
-                  <p className="text-gray-700">{question.explanation}</p>
-                </div>
+                ) : (
+                  'Generate Question Paper'
+                )}
+              </button>
+
+              {examPaper && (
+                <button
+                  onClick={() => setShowAnswers(!showAnswers)}
+                  className="py-3 px-6 rounded-lg font-medium bg-gray-600 hover:bg-gray-700 text-white transition-colors"
+                >
+                  {showAnswers ? 'Hide Answers' : 'Show Answers'}
+                </button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        {examPaper && (
+          <Card className="mb-8">
+            <CardContent className="p-8">
+              <div className="text-right mb-6 space-y-1">
+                <div className="text-sm font-medium">NEET 2024</div>
+                <div className="text-xs text-gray-500">Set E1</div>
               </div>
-            );
-          })}
-        </div>
-      )}
+
+              <div className="space-y-8">
+                {examPaper.questions.map((question) => (
+                  <div
+                    key={question.number}
+                    className="border-b pb-6 last:border-0"
+                  >
+                    <div className="flex gap-4">
+                      <div className="font-medium text-gray-700 w-8">
+                        {question.number}.
+                      </div>
+                      <div className="flex-1 space-y-4">
+                        <div className="text-gray-800">{question.text}</div>
+                        {question.type === 'matching' ? (
+                          renderMatchingQuestion(question)
+                        ) : (
+                          <div className="mt-4 space-y-3 pl-8">
+                            {question.options.map((option, idx) => (
+                              <div
+                                key={idx}
+                                className={`p-3 rounded-lg transition-colors ${
+                                  showAnswers &&
+                                  option.startsWith(
+                                    `(${question.correctOption})`
+                                  )
+                                    ? 'bg-green-100'
+                                    : 'hover:bg-gray-50'
+                                }`}
+                              >
+                                {option}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {showAnswers && question.explanation && (
+                          <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                            <div className="font-medium text-blue-800 mb-2">
+                              Explanation:
+                            </div>
+                            <div className="text-blue-700">
+                              {question.explanation}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {showAnswers && (
+                <div className="mt-8 pt-6 border-t">
+                  <h3 className="font-bold text-lg mb-4">Answer Key</h3>
+                  <div className="grid grid-cols-5 gap-4">
+                    {examPaper.questions.map((q) => (
+                      <div
+                        key={q.number}
+                        className="p-3 bg-gray-50 rounded-lg text-center"
+                      >
+                        <span className="font-medium">{q.number}.</span>{' '}
+                        <span className="text-green-600">
+                          ({q.correctOption})
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
 
-export default BiotechnologyQuiz;
+export default NEETPage;

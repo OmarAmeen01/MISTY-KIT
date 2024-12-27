@@ -3,7 +3,6 @@ import { PlaygroundStateProvider } from "@/hooks/use-playground-state";
 import { ConnectionProvider } from "@/hooks/use-connection";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
-// import Droplert from "../../components/droplert/droplert";
 import { PHProvider } from "@/hooks/posthog-provider";
 import { Public_Sans } from "next/font/google";
 import dynamic from "next/dynamic";
@@ -26,7 +25,6 @@ const publicSans = Public_Sans({
 import "@livekit/components-styles";
 import { SessionProvider } from "next-auth/react";
 import { Navbar } from "@/components/auth";
-import Droplert from "@/components/droplert/droplert";
 
 export default function RootLayout({
   children,
@@ -44,7 +42,6 @@ export default function RootLayout({
                   <PostHogPageView />
                   <Analytics />
                   <Navbar/>
-                  <Droplert/>
                   {children}
                   <Toaster />
                 </TooltipProvider>

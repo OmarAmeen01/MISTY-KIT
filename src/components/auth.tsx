@@ -117,7 +117,7 @@ export function Navbar() {
         }`}
         onClick={toggleMobileMenu}
       >
-      NEET PAPER
+     Question Paper Generator 
       </Link>
       <Link
         href="/vision"
