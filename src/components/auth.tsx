@@ -111,13 +111,13 @@ export function Navbar() {
         Tutoring
       </Link>
       <Link
-        href="/for-schools"
+        href="/neet"
         className={`hover:text-gray-900 ${
           pathname === "/for-schools" ? "text-sky-500" : "text-gray-600"
         }`}
         onClick={toggleMobileMenu}
       >
-        For schools
+      NEET PAPER
       </Link>
       <Link
         href="/vision"
