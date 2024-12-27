@@ -210,14 +210,13 @@ const questions: Question[] = [
 ];
 
 const BiotechnologyQuiz: React.FC = () => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>(Array(questions.length).fill(''));
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
-  const handleOptionClick = (option: string) => {
+  const handleOptionClick = (questionIndex: number, option: string) => {
     const newAnswers = [...selectedAnswers];
-    newAnswers[currentQuestion] = option;
+    newAnswers[questionIndex] = option;
     setSelectedAnswers(newAnswers);
   };
 
@@ -234,95 +233,117 @@ const BiotechnologyQuiz: React.FC = () => {
     setSubmitted(true);
   };
 
-  const handleNextQuestion = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    }
-  };
-
-  const handlePreviousQuestion = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
-  };
-
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">AI generated BIOTECH APP qpa v-0.0.01</h1>
+    <div className="p-4 max-w-3xl mx-auto min-h-screen bg-gray-50">
+      <h1 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
+        AI generated BIOTECH APP qpa v-0.0.01
+      </h1>
       {!submitted ? (
-        <div className="mb-4">
-          <p className="mb-2">
-            {currentQuestion + 1}. {questions[currentQuestion].question}
-          </p>
-          <div className="grid grid-cols-1 gap-2">
-            {questions[currentQuestion].options.map((option) => (
-              <button
-                key={option}
-                className={`p-2 rounded border ${
-                  selectedAnswers[currentQuestion] === option ? 'bg-blue-100 border-blue-500' : 'border-gray-300'
-                } hover:bg-gray-100 focus:outline-none`}
-                onClick={() => handleOptionClick(option)}
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-          <div className="flex justify-between mt-4">
-            <button
-              onClick={handlePreviousQuestion}
-              disabled={currentQuestion === 0}
-              className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded focus:outline-none disabled:opacity-50"
+        <div className="space-y-8">
+          {questions.map((question, questionIndex) => (
+            <div 
+              key={question.id} 
+              className="mb-6 p-6 rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl bg-white border border-gray-100"
             >
-              Previous
-            </button>
+              <p className="mb-4 font-semibold text-lg text-gray-800">
+                <span className="inline-block w-8 h-8 leading-8 text-center bg-blue-100 text-blue-600 rounded-full mr-2">
+                  {questionIndex + 1}
+                </span>
+                {question.question}
+              </p>
+              <div className="grid grid-cols-1 gap-3">
+                {question.options.map((option) => (
+                  <button
+                    key={option}
+                    className={`p-3 rounded-lg border text-left transition-all duration-200 ${
+                      selectedAnswers[questionIndex] === option 
+                        ? 'bg-blue-100 border-blue-500 text-blue-700 shadow-md' 
+                        : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50'
+                    }`}
+                    onClick={() => handleOptionClick(questionIndex, option)}
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+          <div className="sticky bottom-4 bg-white p-4 border-t shadow-lg rounded-lg">
             <button
-              onClick={handleNextQuestion}
-              disabled={currentQuestion === questions.length - 1}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none disabled:opacity-50"
+              onClick={handleSubmit}
+              className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200"
             >
-              Next
+              Submit All Answers
             </button>
           </div>
         </div>
       ) : (
-        <div className="mb-4">
-          <h2 className="text-xl font-semibold mb-4">Quiz Results</h2>
-          <p className="mb-4">Your Score: {score}</p>
-          {questions.map((question, index) => (
-            <div key={question.id} className="mb-6 p-4 border rounded">
-              <p className="font-bold">{index + 1}. {question.question}</p>
-              <p>
-                Your Answer:{' '}
-                <span
-                  className={`${
-                    selectedAnswers[index] === question.correctAnswer
-                      ? 'text-green-500'
-                      : selectedAnswers[index] !== ''
-                      ? 'text-red-500'
-                      : 'text-gray-500'
-                  }`}
-                >
-                  {selectedAnswers[index] || 'Not Answered'}
-                </span>
-              </p>
-              <p>
-                Correct Answer: <span className="text-green-500">{question.correctAnswer}</span>
-              </p>
-              <p>
-                Explanation: <span className="text-gray-700">{question.explanation}</span>
-              </p>
-            </div>
-          ))}
+        <div className="mb-4 space-y-8">
+          <div className="p-6 rounded-xl bg-white shadow-lg border border-gray-100">
+            <h2 className="text-2xl font-bold mb-2 text-gray-800">Quiz Results</h2>
+            <p className="text-xl mb-4">
+              Your Score: <span className="font-bold text-blue-600">{score}</span>
+            </p>
+          </div>
+          
+          {questions.map((question, index) => {
+            const isCorrect = selectedAnswers[index] === question.correctAnswer;
+            const isAnswered = selectedAnswers[index] !== '';
+            
+            return (
+              <div 
+                key={question.id} 
+                className={`p-6 rounded-xl shadow-lg transition-all duration-200 ${
+                  isCorrect 
+                    ? 'bg-green-50 border border-green-200' 
+                    : isAnswered 
+                      ? 'bg-red-50 border border-red-200'
+                      : 'bg-gray-50 border border-gray-200'
+                }`}
+              >
+                <p className="font-bold text-lg mb-4 text-gray-800">
+                  <span className={`inline-block w-8 h-8 leading-8 text-center rounded-full mr-2 ${
+                    isCorrect 
+                      ? 'bg-green-100 text-green-600' 
+                      : isAnswered 
+                        ? 'bg-red-100 text-red-600'
+                        : 'bg-gray-100 text-gray-600'
+                  }`}>
+                    {index + 1}
+                  </span>
+                  {question.question}
+                </p>
+                
+                <div className="space-y-3 mb-4">
+                  <p className="flex items-center">
+                    <span className="font-semibold mr-2">Your Answer:</span>
+                    <span className={`px-3 py-1 rounded-full ${
+                      isCorrect
+                        ? 'bg-green-100 text-green-700'
+                        : isAnswered
+                          ? 'bg-red-100 text-red-700'
+                          : 'bg-gray-100 text-gray-700'
+                    }`}>
+                      {selectedAnswers[index] || 'Not Answered'}
+                    </span>
+                  </p>
+                  
+                  <p className="flex items-center">
+                    <span className="font-semibold mr-2">Correct Answer:</span>
+                    <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full">
+                      {question.correctAnswer}
+                    </span>
+                  </p>
+                </div>
+                
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="font-semibold mb-1">Explanation:</p>
+                  <p className="text-gray-700">{question.explanation}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
-      )}
-
-      {!submitted && (
-        <button
-          onClick={handleSubmit}
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
-        >
-          Submit
-        </button>
       )}
     </div>
   );
