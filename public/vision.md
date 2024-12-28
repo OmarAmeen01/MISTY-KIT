@@ -104,3 +104,25 @@ WE ARE BUILDING THE GO-TO APP FOR EDUCATION
 
 © 2024 Existense Co .
 
+
+
+# My plan
+### Author -CTO , Co-Founder and core developer
+Parents say what all they want in this if they wana buy this for their kid and a testimonial with their kids using and engaged with our voice model + qp-Gen + quizzer 
+like a documentary style video where they will be talking about what all the school is failing to do - traditional way of learning and WAY behind the curve of other people who are exposed to very high class environment 
+
+we provide environment for the children and what they would like to make with this - we gather data on which we understand what the kid is interested in and what they want to do in their life- this country has made JEE NEET etc as students life set path , and with millions competeting for the same title - real talent fromt this country gets washed up and not recognised 
+
+our plan on this issue is here as follows :
+                ** we will have an AI Assistant tutor who will be capable to help students solve problems solve doubts via in house made GenAI Animation models and STT models -
+                ** our AI models will try to understand what the kids are interested in learning and what they are struggling with - this gets more precise over time with more data we gather
+                ** as time passes our AI will make one of the most elaborate roadmap path and try to lead the child into deeper topics and understanding on things by showing the potential of the concept the child is trying to learn - teleportation sounds cool ? it all starts here with friction matter and mass - a mere class 6 topic converted into a curious rabbit hole of how the kid goes on to ask for more and more to learn the potential of teleportation just from a quiestion they asked from physics 
+
+                ** We will have all the monitored data in the parents dashboard and also show it what the child has been learning and where his true interest is 
+                ** with that we will show the child the things they need to learn and the path people have choosen with it 
+                ** The child will also have a friend to talk to and get any help judgement or answers they are looking for - it can also go realtime with exa.ai "Exa search uses embeddings to understand meaning and help AI get better data from the internet - they have categorized the whole internets data into categories thus also keeping the child away from dangerous knowledge"
+                ** thus childrens assignments and projects questions and data will not be outdated
+
+
+
+

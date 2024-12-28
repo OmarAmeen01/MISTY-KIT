@@ -124,7 +124,7 @@ const NEETPage = () => {
       <div className="max-w-5xl mx-auto px-4">
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>NEET Question Paper Generator</CardTitle>
+            <CardTitle>Question Paper Generator</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
@@ -188,7 +188,7 @@ const NEETPage = () => {
           <Card className="mb-8">
             <CardContent className="p-8">
               <div className="text-right mb-6 space-y-1">
-                <div className="text-sm font-medium">NEET 2024</div>
+                <div className="text-sm font-medium">TEST 2024</div>
                 <div className="text-xs text-gray-500">Set E1</div>
               </div>
 
