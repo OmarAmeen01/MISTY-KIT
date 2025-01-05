@@ -110,7 +110,7 @@ export default function NotFound() {
   const pathName = extractLastPathSegment(path);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-orange-50 p-4">
+    <div className="flex flex-col items-center justify-center min-h-max bg-orange-50 p-4">
       <div className="max-w-4xl w-full bg-orange-100 border-4 border-orange-500 rounded-xl shadow-lg overflow-hidden">
         {/* Video Player with Error Handling */}
         <div className="w-full aspect-video bg-black flex items-center justify-center">
@@ -148,10 +148,10 @@ export default function NotFound() {
               Return Home
             </Link>
             <Link
-              href="/vision"
+              href="/audio-explainer"
               className="px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition duration-300 inline-block"
             >
-              Check out our VISION
+              Check out Misty
             </Link>
           </div>
         </div>

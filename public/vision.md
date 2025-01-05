@@ -102,7 +102,7 @@ WE ARE BUILDING THE GO-TO APP FOR EDUCATION
 
 ``` 
 
-© 2024 Existense Co .
+© 2024 Misty Co .
 
 
 

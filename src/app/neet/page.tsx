@@ -102,11 +102,10 @@ const NEETPage = () => {
           {question.combinations?.map((combo, idx) => (
             <div
               key={idx}
-              className={`p-2 rounded ${
-                showAnswers && idx + 1 === parseInt(question.correctOption)
+              className={`p-2 rounded ${showAnswers && idx + 1 === parseInt(question.correctOption)
                   ? 'bg-green-100'
                   : 'hover:bg-gray-50'
-              }`}
+                }`}
             >
               <span className="font-medium">({idx + 1})</span>{' '}
               {Object.entries(combo)
@@ -120,47 +119,47 @@ const NEETPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-5xl mx-auto px-4">
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Question Paper Generator</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="border-2 border-dashed border-gray-200 rounded-lg p-8 text-center">
-              <input
-                type="file"
-                accept=".pdf"
-                onChange={handleFileChange}
-                className="hidden"
-                id="file-upload"
-              />
+    <div className="min-h-screen bg-gray-100 py-10 flex flex-col items-center">
+      <div className="w-full max-w-4xl px-6 md:px-10">
+        {/* Header Section */}
+        <div className="bg-white rounded-lg shadow-md p-6 md:p-8 text-center">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
+            Generate Your Custom Question Paper
+          </h1>
+          <p className="text-sm md:text-base text-gray-600">
+            Upload your PDF study material to generate personalized exam questions in seconds.
+          </p>
+        </div>
+
+        {/* Upload Section */}
+        <div className="mt-8 bg-white rounded-lg shadow-md p-6 md:p-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+            <div className="w-full md:w-2/3">
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer flex flex-col items-center"
+                className="w-full flex flex-col items-center justify-center border-2 border-dashed border-blue-300 rounded-lg py-6 cursor-pointer transition hover:border-blue-500 hover:bg-blue-50"
               >
-                <Upload className="h-12 w-12 text-gray-400 mb-4" />
+                <Upload className="h-10 w-10 text-blue-400 mb-3" />
                 <span className="text-sm text-gray-600">
-                  {file ? file.name : 'Upload PDF study material'}
+                  {file ? file.name : 'Click to upload your PDF'}
                 </span>
+                <input
+                  type="file"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="file-upload"
+                />
               </label>
             </div>
-
-            {error && (
-              <Alert variant="destructive" className="mt-4">
-                <AlertDescription>{error}</AlertDescription>
-              </Alert>
-            )}
-
-            <div className="flex gap-4 mt-6">
+            <div className="w-full md:w-1/3">
               <button
                 onClick={handleSubmit}
                 disabled={!file || loading}
-                className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors ${
-                  !file || loading
-                    ? 'bg-gray-300'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
-                }`}
+                className={`w-full py-3 px-4 rounded-lg font-medium transition-all shadow-md ${!file || loading
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-blue-500 text-white hover:bg-blue-600'
+                  }`}
               >
                 {loading ? (
                   <span className="flex items-center justify-center">
@@ -168,102 +167,101 @@ const NEETPage = () => {
                     Generating...
                   </span>
                 ) : (
-                  'Generate Question Paper'
+                  'Generate Paper'
                 )}
               </button>
-
-              {examPaper && (
-                <button
-                  onClick={() => setShowAnswers(!showAnswers)}
-                  className="py-3 px-6 rounded-lg font-medium bg-gray-600 hover:bg-gray-700 text-white transition-colors"
-                >
-                  {showAnswers ? 'Hide Answers' : 'Show Answers'}
-                </button>
-              )}
             </div>
-          </CardContent>
-        </Card>
+          </div>
 
+          {error && (
+            <div className="mt-4 p-4 bg-red-50 border border-red-300 rounded-lg text-red-700 text-sm">
+              {error}
+            </div>
+          )}
+        </div>
+
+        {/* Questions Section */}
         {examPaper && (
-          <Card className="mb-8">
-            <CardContent className="p-8">
-              <div className="text-right mb-6 space-y-1">
-                <div className="text-sm font-medium">TEST 2024</div>
-                <div className="text-xs text-gray-500">Set E1</div>
+          <div className="mt-8 bg-white rounded-lg shadow-md p-6 md:p-8">
+            <div className="flex justify-between items-center">
+              <div>
+                <h2 className="text-xl md:text-2xl font-bold text-gray-800">
+                  Generated Question Paper
+                </h2>
+                <p className="text-sm text-gray-500">Set E1 · TEST 2024</p>
               </div>
+              <button
+                onClick={() => setShowAnswers(!showAnswers)}
+                className="py-2 px-4 rounded-lg bg-gray-700 text-white text-sm font-medium hover:bg-gray-800"
+              >
+                {showAnswers ? 'Hide Answers' : 'Show Answers'}
+              </button>
+            </div>
 
-              <div className="space-y-8">
-                {examPaper.questions.map((question) => (
-                  <div
-                    key={question.number}
-                    className="border-b pb-6 last:border-0"
-                  >
-                    <div className="flex gap-4">
-                      <div className="font-medium text-gray-700 w-8">
-                        {question.number}.
-                      </div>
-                      <div className="flex-1 space-y-4">
-                        <div className="text-gray-800">{question.text}</div>
-                        {question.type === 'matching' ? (
-                          renderMatchingQuestion(question)
-                        ) : (
-                          <div className="mt-4 space-y-3 pl-8">
-                            {question.options.map((option, idx) => (
-                              <div
-                                key={idx}
-                                className={`p-3 rounded-lg transition-colors ${
-                                  showAnswers &&
-                                  option.startsWith(
-                                    `(${question.correctOption})`
-                                  )
-                                    ? 'bg-green-100'
-                                    : 'hover:bg-gray-50'
+            <div className="mt-6 space-y-6">
+              {examPaper.questions.map((question) => (
+                <div
+                  key={question.number}
+                  className="bg-gray-50 border border-gray-200 rounded-lg p-4 transition-transform transform hover:scale-[1.02]"
+                >
+                  <div className="flex gap-4">
+                    <div className="text-blue-500 font-bold">{question.number}.</div>
+                    <div className="flex-1">
+                      <p className="text-gray-800">{question.text}</p>
+                      {question.type === 'matching' ? (
+                        renderMatchingQuestion(question)
+                      ) : (
+                        <div className="mt-4 space-y-3">
+                          {question.options.map((option, idx) => (
+                            <div
+                              key={idx}
+                              className={`p-3 rounded-lg text-sm transition hover:bg-gray-100 ${showAnswers &&
+                                  option.startsWith(`(${question.correctOption})`)
+                                  ? 'bg-green-100 text-green-800 font-bold'
+                                  : 'text-gray-700'
                                 }`}
-                              >
-                                {option}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                        {showAnswers && question.explanation && (
-                          <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                            <div className="font-medium text-blue-800 mb-2">
-                              Explanation:
+                            >
+                              {option}
                             </div>
-                            <div className="text-blue-700">
-                              {question.explanation}
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                          ))}
+                        </div>
+                      )}
+                      {showAnswers && question.explanation && (
+                        <div className="mt-4 bg-blue-50 text-blue-700 p-3 rounded-lg">
+                          <strong>Explanation:</strong> {question.explanation}
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))}
-              </div>
-
-              {showAnswers && (
-                <div className="mt-8 pt-6 border-t">
-                  <h3 className="font-bold text-lg mb-4">Answer Key</h3>
-                  <div className="grid grid-cols-5 gap-4">
-                    {examPaper.questions.map((q) => (
-                      <div
-                        key={q.number}
-                        className="p-3 bg-gray-50 rounded-lg text-center"
-                      >
-                        <span className="font-medium">{q.number}.</span>{' '}
-                        <span className="text-green-600">
-                          ({q.correctOption})
-                        </span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              ))}
+            </div>
+
+            {showAnswers && (
+              <div className="mt-8 pt-4 border-t">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                  Answer Key
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                  {examPaper.questions.map((q) => (
+                    <div
+                      key={q.number}
+                      className="p-3 bg-gray-50 rounded-lg text-center text-gray-700 font-medium hover:bg-gray-100"
+                    >
+                      {q.number}.{' '}
+                      <span className="text-green-600 font-bold">
+                        ({q.correctOption})
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
+
   );
 };
 
