@@ -214,7 +214,7 @@ export function Navbar() {
         onAuthComplete={() => setShowAuthDialog(false)}
       />
       <div className="w-full bg-orange-500 text-white text-center py-2 text-sm">
-        We are currently in alpha! We haven&apos;t launched and are still under a lot of development changes.
+        We are currently in beta! We haven&apos;t launched and are still under a lot of development changes.
       </div>
     </div>
   );
