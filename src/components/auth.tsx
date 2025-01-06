@@ -70,7 +70,7 @@ export function Navbar() {
           </Button>
         </div>
       ) : (
-        <div className="flex items-center space-x-2 sm:space-x-4">
+        <div className="sm:flex-col flex-col md:hidden flex items-center space-x-2 sm:space-x-4">
           <div className="relative group">
             <img
               src={session.user?.image || "/default-avatar.png"}
