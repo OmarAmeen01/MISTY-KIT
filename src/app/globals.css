@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+Pro:wght@400;600&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -61,7 +62,7 @@ html {
   flex-direction: column;
   background: rgb(var(--background-start-rgb) / 1);
   color: rgb(var(--foreground-rgb) / 1);
-  font-family: var(--font-sans);
+  scroll-behavior: smooth;
 }
 
 /* Dark mode background gradient support */
@@ -137,4 +138,19 @@ html.dark {
   animation: float 6s ease-in-out infinite;
   animation-delay: 2s;
 }
+html, body {
+  overflow: -moz-scrollbars-none; 
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
+}
 
+::-webkit-scrollbar {
+  display: none; 
+}
+
+  .sanfont {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+  }
+  

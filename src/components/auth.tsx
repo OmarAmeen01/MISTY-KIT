@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { usePlaygroundState } from "@/hooks/use-playground-state";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -20,29 +21,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ellipsisMiddle } from "@/lib/utils";
 import {
-  ChevronDown,
   Key,
-  Bot,
-  FileText,
-  Brain,
-  Video,
   Menu,
   X,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import Dropbar from "./ui/ShiftingDropDown";
 
 const AuthFormSchema = z.object({
   openaiAPIKey: z.string().min(1, { message: "API key is required" }),
 });
 
 export function Navbar() {
-  const { pgState, dispatch, showAuthDialog, setShowAuthDialog } =
-    usePlaygroundState();
+  const { pgState, dispatch, showAuthDialog, setShowAuthDialog } = usePlaygroundState();
   const { data: session } = useSession();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -54,141 +44,79 @@ export function Navbar() {
     setShowAuthDialog(true);
   };
 
-  // Helper function to check if a path is active
-  const isActive = (path: string) => pathname.startsWith(path);
-
-  // Mobile menu toggle
   const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
 
-  // Close mobile menu when pathname changes
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
 
   const NavLinks = () => (
     <>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className={`font-serif text-xl flex items-center hover:text-gray-900 ${
-            isActive("/audio-explainer") ? "text-sky-500" : "text-gray-600"
-          }`}
-        >
-          Apps <ChevronDown className="ml-1 w-4 h-4" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[300px] p-3">
-          <Link href="/audio-explainer" onClick={toggleMobileMenu}>
-            <DropdownMenuItem className="flex items-start p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Bot className="w-6 h-6 mr-3 text-blue-500" />
-              <div>
-                <div className="font-medium">Live AI Teacher</div>
-                <div className="text-sm text-gray-500">
-                  AI powered AUDIO to AUDIO based live teacher.
-                </div>
-              </div>
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/apps/flashcards" onClick={toggleMobileMenu}>
-            <DropdownMenuItem className="flex items-start p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Brain className="w-6 h-6 mr-3 text-blue-500" />
-              <div>
-                <div className="font-medium">Flashcards</div>
-                <div className="text-sm text-gray-500">
-                  Active recall + Spaced repetition
-                </div>
-              </div>
-            </DropdownMenuItem>
-          </Link>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      <Link
-        href="/tutoring"
-        className={`hover:text-gray-900 ${
-          pathname === "/tutoring" ? "text-sky-500" : "text-gray-600"
-        }`}
-        onClick={toggleMobileMenu}
-      >
-        Tutoring
-      </Link>
-      <Link
-        href="/neet"
-        className={`hover:text-gray-900 ${
-          pathname === "/for-schools" ? "text-sky-500" : "text-gray-600"
-        }`}
-        onClick={toggleMobileMenu}
-      >
-     Question Paper Generator 
-      </Link>
-      <Link
-        href="/vision"
-        className={`px-3 py-1 rounded-lg bg-blue-200 font-semibold shadow-md transform transition-all hover:scale-96 hover:shadow-lg ${
-          pathname === "/vision" ? "text-sky-800" : "text-blue-800"
-        }`}
-        onClick={toggleMobileMenu}
-      >
-        Vision
-      </Link>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className={`flex items-center hover:text-gray-900 ${
-            isActive("/resources") ? "text-sky-500" : "text-gray-600"
-          }`}
-        >
-          Resources <ChevronDown className="ml-1 w-4 h-4" />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[300px] p-3">
-          <Link href="/resources/question-bank" onClick={toggleMobileMenu}>
-            <DropdownMenuItem className="flex items-start p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <FileText className="w-6 h-6 mr-3 text-blue-500" />
-              <div>
-                <div className="font-medium">Question Bank</div>
-                <div className="text-sm text-gray-500">
-                  Exam-style questions sorted by topic
-                </div>
-              </div>
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/resources/video-lessons" onClick={toggleMobileMenu}>
-            <DropdownMenuItem className="flex items-start p-3 hover:bg-gray-50 rounded-lg cursor-pointer">
-              <Video className="w-6 h-6 mr-3 text-blue-500" />
-              <div>
-                <div className="font-medium">Video Lessons</div>
-                <div className="text-sm text-gray-500">
-                  Watch expert-led video tutorials
-                </div>
-              </div>
-            </DropdownMenuItem>
-          </Link>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Dropbar />
+      {!session ? (
+        <div className="sm:flex-col flex-col flex md:hidden items-center space-x-2">
+          <Button
+            variant="ghost"
+            onClick={() => signIn()}
+            className="text-white rounded-full bg-gray-600 hover:bg-gray-800 hover:text-white sm:w-full w-full my-2"
+          >
+            Login
+          </Button>
+          <Button
+            onClick={() => signIn()}
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 sm:px-6 sm:w-full w-full my-2"
+          >
+            Sign up
+          </Button>
+        </div>
+      ) : (
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          <div className="relative group">
+            <img
+              src={session.user?.image || "/default-avatar.png"}
+              alt="User Profile"
+              className="w-8 h-8 rounded-full"
+            />
+            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:opacity-100 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap">
+              {session.user?.email}
+            </span>
+          </div>
+          <Button
+            onClick={() => signOut()}
+            variant="ghost"
+            className="text-gray-600 hover:text-gray-900"
+          >
+            Sign Out
+          </Button>
+        </div>
+      )}
     </>
   );
 
   return (
     <div className="flex flex-col w-full">
       {/* Announcement Banner */}
-      <div className="w-full bg-orange-500 text-white text-center py-2 text-sm">
-        We are currently in alpha! We haven&apos;t launched and are still under a lot
-        of development changes.
-      </div>
-      
-      <nav className="border-b bg-white">
+
+
+      {/* Navbar with Framer Motion */}
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="border-b bg-white shadow-sm"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div>
-              <Link href="/" className="font-sans text-xl font-semibold">
-                ΣClassroom
+              <Link href="/" className="font-mono mx-2 text-2xl font-semibold">
+                Misty
               </Link>
             </div>
 
             {/* Mobile Menu Toggle */}
             <div className="md:hidden">
-              <Button 
-                variant="ghost" 
-                onClick={toggleMobileMenu} 
-                className="p-2"
-              >
+              <Button variant="ghost" onClick={toggleMobileMenu} className="p-2">
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </Button>
             </div>
@@ -199,28 +127,41 @@ export function Navbar() {
             </div>
 
             {/* Mobile Menu */}
-            {mobileMenuOpen && (
-              <div className="absolute top-full left-0 w-full bg-white md:hidden shadow-lg z-50">
-                <div className="flex flex-col space-y-4 p-4">
-                  <NavLinks />
-                </div>
-              </div>
-            )}
+            <AnimatePresence>
+              {mobileMenuOpen && (
+                <motion.div
+                  className="absolute top-0 left-0 w-full h-full bg-white md:hidden shadow-lg z-50 flex flex-col items-center justify-center"
+                  initial={{ opacity: 0, y: -50 }}   // Start with opacity 0 and slightly above
+                  animate={{ opacity: 1, y: 0 }}     // Fade in and move to original position
+                  exit={{ opacity: 0, y: 50 }}       // Fade out and move slightly down when closed
+                  transition={{ duration: 0.3, ease: "easeOut" }}  // Smooth transition
+                >
+                  <div className="absolute top-4 right-4">
+                    <Button variant="ghost" onClick={toggleMobileMenu}>
+                      <X className="w-6 h-6 text-gray-900" />
+                    </Button>
+                  </div>
+                  <div className="flex flex-col items-center space-y-6 p-4">
+                    <NavLinks />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
 
             {/* Auth Section */}
-            <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="hidden md:flex items-center space-x-2 sm:space-x-4">
               {!session ? (
-                <div className="flex items-center space-x-2">
+                <div className="sm:flex-col flex md:flex-row items-center space-x-2">
                   <Button
                     variant="ghost"
                     onClick={() => signIn()}
-                    className="text-gray-600 hover:text-gray-900 hidden sm:block"
+                    className="text-white rounded-full bg-gray-600 hover:bg-gray-800 hover:text-white sm:w-full w-full my-2"
                   >
                     Login
                   </Button>
                   <Button
                     onClick={() => signIn()}
-                    className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 sm:px-6"
+                    className="bg-blue-500 hover:bg-blue-600 text-white rounded-full px-4 sm:px-6 sm:w-full w-full my-2"
                   >
                     Sign up
                   </Button>
@@ -235,12 +176,12 @@ export function Navbar() {
                     />
                     <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-2 opacity-0 group-hover:opacity-100 bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap">
                       {session.user?.email}
-                    </span> 
+                    </span>
                   </div>
                   <Button
                     onClick={() => signOut()}
                     variant="ghost"
-                    className="text-gray-600 hover:text-gray-900 hidden sm:block"
+                    className="text-gray-600 hover:text-gray-900"
                   >
                     Sign Out
                   </Button>
@@ -248,7 +189,7 @@ export function Navbar() {
               )}
 
               {pgState.openaiAPIKey && (
-                <div 
+                <div
                   className="flex items-center space-x-1 text-xs sm:text-sm text-gray-600 
                   border rounded-full px-2 sm:px-3 py-1"
                 >
@@ -265,16 +206,21 @@ export function Navbar() {
             </div>
           </div>
         </div>
-      </nav>
+      </motion.nav>
 
       <AuthDialog
         open={showAuthDialog}
         onOpenChange={setShowAuthDialog}
         onAuthComplete={() => setShowAuthDialog(false)}
       />
+      <div className="w-full bg-orange-500 text-white text-center py-2 text-sm">
+        We are currently in beta! We haven&apos;t launched and are still under a lot of development changes.
+      </div>
     </div>
   );
 }
+
+
 
 // AuthDialog component remains the same as in the original code
 export function AuthDialog({
