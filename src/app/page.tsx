@@ -26,7 +26,7 @@ export default function Home() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col min-h-max bg-white text-gray-800 font-sans relative overflow-hidden">
+    <div className="flex flex-col min-h-max md:min-h-screen bg-white text-gray-800 font-sans relative overflow-hidden">
       <Head>
         {/* Import Google Fonts */}
         <link
