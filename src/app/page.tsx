@@ -25,7 +25,7 @@ export default function Home() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col min-h-max md:min-h-screen  lg:max-w-[2000px] lg:min-w-[1350px] lg:ml-auto lg:mr-auto bg-white text-gray-800 font-sans relative overflow-hidden">
+    <div className="flex flex-col min-h-max md:min-h-screen  lg:max-w-[1700px] lg:w-[100%]  lg:min-w-[1080px] lg:ml-auto lg:mr-auto bg-white text-gray-800 font-sans relative overflow-hidden">
      
 
       {/* Background Images */}
@@ -60,9 +60,9 @@ export default function Home() {
        
       </div>
 
-      <main className="flex-grow flex flex-col items-center justify-center py-5 px-4 sm:px-6 mt-36 lg:px-8 relative z-10">
+      <main className="flex-grow flex flex-col items-center justify-center py-5 px-4 sm:px-6 md:mt-36 lg:px-8 relative z-10">
         <div className="text-center mb-5">
-          <h1 className="mx-auto font-sans font-bold max-w-xl text-center text-3xl tracking-normal text-black transition-all sm:text-5xl lg:max-w-3xl lg:text-[4.5rem]">
+          <h1 className="mx-auto font-sans font-bold max-w-xl text-center text-3xl tracking-normal text-black transition-all sm:text-5xl lg:max-w-3xl lg:text-[3.8rem]">
             The Distinguished Way to Master{" "} 
             <motion.span
               initial={{ opacity: 0, y: 20 }}
