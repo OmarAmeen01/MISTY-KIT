@@ -4,7 +4,7 @@ import { ConnectionProvider } from "@/hooks/use-connection";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { PHProvider } from "@/hooks/posthog-provider";
-import { Public_Sans } from "next/font/google";
+import { Public_Sans,Manrope } from "next/font/google";
 import dynamic from "next/dynamic";
 import { Analytics } from "@vercel/analytics/react";
 const PostHogPageView = dynamic(
@@ -22,6 +22,13 @@ const publicSans = Public_Sans({
   display: "swap",
 });
 
+const manrope= Manrope({
+  subsets:["cyrillic"],
+  weight: [ "200", "300", "400", "500", "600", "700", "800",],
+  variable:"--font-manrope",
+  style:["normal"]
+})
+
 import "@livekit/components-styles";
 import { SessionProvider } from "next-auth/react";
 import { Navbar } from "@/components/auth";
@@ -33,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={publicSans.className}>
+      <body className={`${manrope.variable} font-sans `}>
         <SessionProvider>
           <PHProvider>
             <PlaygroundStateProvider>

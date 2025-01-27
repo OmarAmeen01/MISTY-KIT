@@ -22,7 +22,7 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       fontFamily: {
-        sans: ['Public Sans', 'sans-serif'],
+        sans: ['var(--font-manrope)', 'sans-serif'],
         mono: ['Commit Mono', 'monospace'],
       },
       animation: {

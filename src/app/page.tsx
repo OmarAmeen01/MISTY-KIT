@@ -2,9 +2,8 @@
 
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import Head from "next/head"; // Import Head for including links in the head
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { Button} from "@/components/ui/button";
 import "./globals.css";
 
 const subjects = ["Physics", "Chemistry", "Biology", "Mathematics", "Literature", "History"];
@@ -26,14 +25,8 @@ export default function Home() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="flex flex-col min-h-max md:min-h-screen bg-white text-gray-800 font-sans relative overflow-hidden">
-      <Head>
-        {/* Import Google Fonts */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
-          rel="stylesheet"
-        />
-      </Head>
+    <div className="flex flex-col min-h-max md:min-h-screen  lg:max-w-[2000px] lg:min-w-[1350px] lg:ml-auto lg:mr-auto bg-white text-gray-800 font-sans relative overflow-hidden">
+     
 
       {/* Background Images */}
       {/* For mobile view */}
@@ -46,7 +39,7 @@ export default function Home() {
         />
       </div>
 
-      {/* For larger screens */}
+   <div>   {/* For larger screens */}
       <div className="absolute inset-0 z-0 hidden md:block">
         <div className="absolute left-0  top-10 bottom-0 w-auto animate-float">
           <Image
@@ -64,19 +57,19 @@ export default function Home() {
             height={300}
           />
         </div>
+       
       </div>
 
-      {/* Main Content */}
-      <main className="flex-grow flex flex-col items-center justify-center py-5 px-4 sm:px-6 lg:px-8 relative z-10">
+      <main className="flex-grow flex flex-col items-center justify-center py-5 px-4 sm:px-6 mt-36 lg:px-8 relative z-10">
         <div className="text-center mb-5">
-          <h1 className="mx-auto font-mono font-black max-w-xl text-center text-3xl tracking-normal text-black transition-all sm:text-5xl lg:max-w-3xl lg:text-[88px]">
-            The Distinguished Way to Master{" "}
+          <h1 className="mx-auto font-sans font-bold max-w-xl text-center text-3xl tracking-normal text-black transition-all sm:text-5xl lg:max-w-3xl lg:text-[4.5rem]">
+            The Distinguished Way to Master{" "} 
             <motion.span
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
               key={currentSubject}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: .2 }}
               className="relative inline-block"
             >
               <span className="inline-block pb-2 underline decoration-blue-500 decoration-[4px] underline-offset-[3px] sm:decoration-8 sm:underline-offset-4">
@@ -84,27 +77,34 @@ export default function Home() {
               </span>
             </motion.span>
           </h1>
-          <h2 className="mx-auto sanfont mt-4 max-w-xl text-center text-lg font-medium leading-6 tracking-tight text-muted-foreground sm:mt-8 sm:text-3xl sm:leading-tight lg:max-w-3xl">
+          <h2 className="mx-auto font-sans mt-4 text-center text-md text-gray-500 font-medium leading-6 tracking-tight  text-muted-foreground sm:mt-8 sm:text-3xl sm:leading-tight lg:max-w-2xl lg:text-3xl max-w-xl">
             Try the best conversational AI Teacher at the palm of your hands.
           </h2>
         </div>
 
         <div id="tp-widget-wrapper" className="tp-widget-wrapper visible mt-1">
-          <div id="tp-widget-rating" className="tp-widget-rating">
-            <span id="translations-main">
-              Tested by<strong> 500+ </strong>students
-            </span>
-          </div>
         </div>
 
         {/* Call to Action */}
+      
+       <div className="flex-items-center p-2">
+
+
+
         <Button
-          className="mt-6 px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold text-lg rounded-full shadow-lg hover:from-purple-500 hover:to-blue-500 hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 p-5"
+          className=" mt-6 px-8 py-4 box-border bg-blue-500 hover:bg-blue-500  hover:bg-opacity-85 p-5 font-bold text-xl drop-shadow-2xl shadow-inner active:mt-0.2 active:border-b-2 border-b-4 border-black/10  rounded-2xl tracking-wide"
         >
           Join Misty — It's Free!
         </Button>
-      </main>
+        
 
+
+        </div>
+            </main>
+</div>
+     
+ {/* Main Content */}
+ 
       {/* Footer */}
       <div className="mt-auto mb-0">
         <footer className="bg-transparent py-6 relative z-10">
