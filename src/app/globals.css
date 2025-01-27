@@ -59,7 +59,7 @@ html {
   height: 100vh;
   width: 100vw;
   display: flex;
-  font-family: 'Commit Mono',sans-serif;
+  font-family: 'var(--font-manrope)',sans-serif;
   flex-direction: column;
   background: rgb(var(--background-start-rgb) / 1);
   color: rgb(var(--foreground-rgb) / 1);
