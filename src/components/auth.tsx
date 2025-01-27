@@ -20,12 +20,16 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ellipsisMiddle } from "@/lib/utils";
+import Image from "next/image"
 import {
   Key,
   Menu,
   X,
 } from "lucide-react";
 import Dropbar from "./ui/ShiftingDropDown";
+
+// importing the logo 
+
 
 const AuthFormSchema = z.object({
   openaiAPIKey: z.string().min(1, { message: "API key is required" }),
@@ -106,11 +110,18 @@ export function Navbar() {
         className="border-b bg-white shadow-sm"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex  justify-between md:justify-center h-16 ">
             {/* Logo */}
-            <div>
-              <Link href="/" className="font-mono mx-2 text-2xl font-semibold">
-                Misty
+            <div >
+             
+              <Link href="/" className="flex items-center  font-sans mx-2 text-2xl font-semibold">
+              <Image
+                       src="/logo_misty_ai.jpeg"
+                       alt="Misty ai"
+                       width={70}
+                       height={70}
+                       className=""
+                     />  Misty 
               </Link>
             </div>
 
@@ -122,7 +133,7 @@ export function Navbar() {
             </div>
 
             {/* Navigation Links */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden md:flex mx-12 items-center space-x-8">
               <NavLinks />
             </div>
 
@@ -213,8 +224,8 @@ export function Navbar() {
         onOpenChange={setShowAuthDialog}
         onAuthComplete={() => setShowAuthDialog(false)}
       />
-      <div className="w-full bg-orange-500 text-white text-center py-2 text-sm">
-        We are currently in beta! We haven&apos;t launched and are still under a lot of development changes.
+       <div className="w-full bg-orange-500 text-white text-center py-2 text-sm">
+        Misty is currently in beta. We're working hard to improve your experience. Enjoy the futue of learning.
       </div>
     </div>
   );

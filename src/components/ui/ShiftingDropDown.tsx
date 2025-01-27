@@ -15,8 +15,8 @@ const Dropbar = () => {
                 </FlyoutLink>
             </div>
             <div className="flex h-auto justify-center bg-transparent text-black px-3 py-2 z-10">
-                <FlyoutLink href="/tutoring">
-                    <div className="text-black">Tutoring</div>
+                <FlyoutLink href="/dashboard">
+                    <div className="text-black">Dashboard</div>
                 </FlyoutLink>
             </div>
             {/* <div className="flex h-auto justify-center bg-transparent text-black px-3 py-2 z-10">
